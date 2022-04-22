@@ -1,6 +1,9 @@
 #!/bin/bash
-set -e
+USER_ID=${LOCAL_UID:-1000}
+GROUP_ID=${LOCAL_GID:-1000}
 
-rm -f /myapp/tmp/pids/server.pid
+useradd -u $USER_ID -o -m takabee
+groupmod -g $GROUP_ID takabee
+export HOME=/home/user
 
-exec "$@"
+exec /usr/sbin/gosu takabee "$@"
